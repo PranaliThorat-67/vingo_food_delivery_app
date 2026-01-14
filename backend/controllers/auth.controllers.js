@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
-import generateToken from './../utils/token';
+import generateToken from './../utils/token.js';
 
 export const signUp = async(req, res) => {
     try {
@@ -32,17 +32,18 @@ export const signUp = async(req, res) => {
             sameSite: "strict",
             maxAge: 7 * 24 * 60 * 60 * 1000, // 30 days
             httpOnly: true,
-        }
-        )
+        })
 
-        res.status(201).json({
-            message: "User created successfully", user })  
+        return res.status(201).json({
+            message: "User created successfully",
+            user
+        })
 
     } catch (error) {
         console.error('Error during sign up:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error' });
     }
-  
+
 
 };
 
@@ -50,25 +51,14 @@ export const signIn = async(req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ message: "User already exists" });
-        }
-        if (password.length < 6) {
-            return res.status(400).json({ message: "Password must be at least 6 characters long" });
-        }
-        if (mobileNumber.length < 6) {
-            return res.status(400).json({ message: "Mobile number must be at least 10 digits long" });
+        if (!user) {
+            return res.status(400).json({ message: "User does not exist" });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        user = await User.create({
-            fullName,
-            email,
-            role,
-            mobileNumber,
-            password: hashedPassword,
-        });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
 
         const token = await generateToken(user._id);
         res.cookie("token", token, {
@@ -76,14 +66,22 @@ export const signIn = async(req, res) => {
             sameSite: "strict",
             maxAge: 7 * 24 * 60 * 60 * 1000, // 30 days
             httpOnly: true,
-        }
-        )
+        })
 
-        res.status(201).json({
-            message: "User created successfully", user })  
+        return res.status(200).json({ user });
 
     } catch (error) {
-        console.error('Error during sign up:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: `Sign In error ${error} ` });
+    }
+};
+
+export const signOut = async(req, res) => {
+    try {
+
+        res.clearCookie("token");
+        return res.status(200).json({ message: "Sign out successful" });
+
+    } catch (error) {
+        return res.status(500).json({ message: `Sign out error ${error.message}` });
     }
 };
