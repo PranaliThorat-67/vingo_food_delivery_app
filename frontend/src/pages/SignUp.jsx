@@ -16,9 +16,31 @@ export default function SignUp() {
 
             <div className='mb-4'>
               <label htmlFor="fullName" className='block text-gray-700 font-medium mb-1'>Full Name</label>
-              <input type="text" id="fullName" className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' placeholder='Enter your full name' />
-
+              <input type="text" id="fullName" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your full name' style={{border: `1px solid ${borderColor}`}} />
             </div>
+
+            {/* email */}
+
+            <div className='mb-4'>
+              <label htmlFor="email" className='block text-gray-700 font-medium mb-1'>Email</label>
+              <input type="text" id="email" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your email' style={{border: `1px solid ${borderColor}`}} />
+            </div>
+
+
+            {/* mobile number */}
+
+            <div className='mb-4'>
+              <label htmlFor="mobileNumber" className='block text-gray-700 font-medium mb-1'>Mobile Number</label>
+              <input type="text" id="mobileNumber" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your mobile number' style={{border: `1px solid ${borderColor}`}} />
+            </div>
+
+            {/* password */}
+
+            <div className='mb-4'>
+              <label htmlFor="password" className='block text-gray-700 font-medium mb-1'>Password</label>
+              <input type="password" id="password" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your password' style={{border: `1px solid ${borderColor}`}} />
+            </div>
+
         </div>
 
     </div>
