@@ -41,6 +41,14 @@ export default function SignUp() {
               <input type="password" id="password" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your password' style={{border: `1px solid ${borderColor}`}} />
             </div>
 
+            {/* sign up */}
+            <button className='w-full py-2 rounded-md text-white font-semibold mt-4' style={{ backgroundColor: primaryColor }}
+              onMouseOver={e => e.currentTarget.style.backgroundColor = hoverColor}
+              onMouseOut={e => e.currentTarget.style.backgroundColor = primaryColor}
+            >
+              Sign Up
+            </button>
+
         </div>
 
     </div>
