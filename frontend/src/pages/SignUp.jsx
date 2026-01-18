@@ -3,7 +3,9 @@ import { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { serverUrl } from "../App";
 
 export default function SignUp() {
   const primaryColor = '#ff4d2d';
@@ -12,6 +14,28 @@ export default function SignUp() {
   const borderColor = '#ddd';
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('user');
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async () => {
+    try {
+      let result = await axios.post(`${serverUrl}/api/auth/signup`, {
+        fullName,
+        email,
+        mobileNumber,
+        password,
+        role
+      }, {
+        withCredentials: true
+      })
+      console.log(result);
+    } catch (error) {
+
+    }
+  }
 
   return (
     <div className='min-h-screen flex items-center w-full justify-center p-4' style={{ backgroundColor: bgColor }}>
@@ -23,14 +47,14 @@ export default function SignUp() {
 
         <div className='mb-4'>
           <label htmlFor="fullName" className='block text-gray-700 font-medium mb-1'>Full Name</label>
-          <input type="text" id="fullName" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your full name' style={{ border: `1px solid ${borderColor}` }} />
+          <input type="text" id="fullName" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your full name' style={{ border: `1px solid ${borderColor}` }} onChange={(e) => setFullName(e.target.value)} value={fullName} />
         </div>
 
         {/* email */}
 
         <div className='mb-4'>
           <label htmlFor="email" className='block text-gray-700 font-medium mb-1'>Email</label>
-          <input type="text" id="email" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your email' style={{ border: `1px solid ${borderColor}` }} />
+          <input type="text" id="email" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your email' style={{ border: `1px solid ${borderColor}` }} onChange={(e) => setEmail(e.target.value)} value={email} />
         </div>
 
 
@@ -38,7 +62,7 @@ export default function SignUp() {
 
         <div className='mb-4'>
           <label htmlFor="mobileNumber" className='block text-gray-700 font-medium mb-1'>Mobile Number</label>
-          <input type="text" id="mobileNumber" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your mobile number' style={{ border: `1px solid ${borderColor}` }} />
+          <input type="text" id="mobileNumber" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your mobile number' style={{ border: `1px solid ${borderColor}` }} onChange={(e) => setMobileNumber(e.target.value)} value={mobileNumber} />
         </div>
 
         {/* password */}
@@ -46,7 +70,7 @@ export default function SignUp() {
         <div className='mb-4'>
           <label htmlFor="password" className='block text-gray-700 font-medium mb-1'>Password</label>
           <div className="relative">
-            <input type={`${showPassword ? "text" : "password"}`} id="password" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your password' style={{ border: `1px solid ${borderColor}` }} />
+            <input type={`${showPassword ? "text" : "password"}`} id="password" className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500' placeholder='Enter your password' style={{ border: `1px solid ${borderColor}` }} onChange={(e) => setPassword(e.target.value)} value={password} />
 
             <button className="absolute right-3 top-[14px] cursor-pointer text-gray-500" onClick={() => setShowPassword(prev=>!prev)}>{!showPassword ? <FaRegEye /> : <FaRegEyeSlash />}</button>
           </div>
@@ -67,14 +91,14 @@ export default function SignUp() {
         </div>
 
         {/* sign up */}
-        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors  `} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }}>Sign Up</button>
+        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors  `} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }} onClick={handleSignUp}>Sign Up</button>
 
           {/* sign up with google */}
         <div className="mt-4 text-center">
           <button className="mt-2 text-gray-600 flex items-center justify-center w-full py-2 rounded-md text-black font-semibold border border-gray-400  transition-colors hover:bg-gray-200" >
             <FcGoogle className="mr-2" /> Sign Up with Google
           </button>
-          <p className={`mt-2 text-gray-600`}>Already have an account? <a href="/login" className={`text-orange-500 hover:underline text`}>Login</a></p>
+          <p className={`mt-2 cursor-pointer text-gray-600`}>Already have an account? <a href="/signin" onClick={() => navigate("/signin")} className={`text-orange-500 hover:underline text`}>Login</a></p>
         </div>
       </div>
 

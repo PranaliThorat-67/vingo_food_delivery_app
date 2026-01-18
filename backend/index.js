@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000 // Use the PORT from environment variables
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5173', //frontend server url
     credentials: true,
 }));
 
