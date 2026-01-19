@@ -58,7 +58,7 @@ export default function SignUp() {
           </div>
         </div>
 
-        <div className="text-left mb-2" style={{color: primaryColor}} onClick={()=>navigate("/forgot-password")}>forgot password</div>
+        <div className="text-left mb-2 cursor-pointer" style={{color: primaryColor}} onClick={()=>navigate("/forgot-password")}>forgot password</div>
 
 
         {/* sign in */}
