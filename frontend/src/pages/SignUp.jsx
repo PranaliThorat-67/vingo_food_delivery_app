@@ -9,6 +9,8 @@ import { serverUrl } from "../App";
 import {signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "/firebase"; 
 import { ClipLoader } from 'react-spinners';
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 
 
 export default function SignUp() {
@@ -25,6 +27,7 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState('');
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     try {
@@ -37,7 +40,7 @@ export default function SignUp() {
       }, {
         withCredentials: true
       })
-      console.log(result);
+      dispatch(setUserData(result.data));
       setErr('');
       setLoading(false);
     } catch (error) {
@@ -63,7 +66,7 @@ export default function SignUp() {
         }, {
           withCredentials: true
         });
-        console.log(data);
+        dispatch(setUserData(data));
         setErr('');
       } catch (error) {
         setErr(error?.response?.data?.message);
