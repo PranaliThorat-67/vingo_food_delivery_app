@@ -3,9 +3,11 @@ import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import ForgotPassword from './pages/ForgotPassword.jsx';
+import useGetCurrentUser from './hooks/useGetCurrentUser.jsx';
 export const serverUrl = 'http://localhost:8000'   //backend server url
 
 function App() {
+  useGetCurrentUser()
   return (
     <Routes>
       <Route path="/signin" element={<SignIn />} />
