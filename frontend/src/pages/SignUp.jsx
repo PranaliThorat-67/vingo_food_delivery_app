@@ -8,7 +8,9 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import {signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "/firebase"; 
-
+import { ClipLoader } from 'react-spinners';
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 
 
 export default function SignUp() {
@@ -24,7 +26,8 @@ export default function SignUp() {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState('');
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -38,7 +41,7 @@ export default function SignUp() {
       }, {
         withCredentials: true
       })
-      console.log(result);
+      dispatch(setUserData(result.data));
       setErr('');
       setLoading(false);
     } catch (error) {
@@ -64,7 +67,7 @@ export default function SignUp() {
         }, {
           withCredentials: true
         });
-        console.log(data);
+        dispatch(setUserData(data));
         setErr('');
       } catch (error) {
         setErr(error?.response?.data?.message);
@@ -125,7 +128,7 @@ export default function SignUp() {
         </div>
 
         {/* sign up */}
-        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors  `} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }} onClick={handleSignUp}>Sign Up</button>
+        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors  `} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }} onClick={handleSignUp} disabled={loading}>{loading ? <ClipLoader size={20} color='white'/>:"Sign Up"}</button>
         <p className="text-red-500 text-center">{err}</p>
 
           {/* sign up with google */}

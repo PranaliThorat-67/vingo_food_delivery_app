@@ -8,6 +8,9 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase";
+import { ClipLoader } from 'react-spinners';
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 
 export default function SignUp() {
   const primaryColor = '#ff4d2d';
@@ -19,8 +22,11 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
+    setLoading(true);
     try {
       let result = await axios.post(`${serverUrl}/api/auth/signin`, {
         email,
@@ -28,10 +34,13 @@ export default function SignUp() {
       }, {
         withCredentials: true
       })
-      console.log(result);
+      dispatch(setUserData(result.data));
       setErr('');
+      setLoading(false);
     } catch (error) {
       setErr(error?.response?.data?.message);
+      setLoading(false);
+
     }
   }
 
@@ -45,7 +54,7 @@ export default function SignUp() {
           }, {
             withCredentials: true
           });
-          console.log(data);
+          dispatch(setUserData(data));
           setErr('');
         } catch (error) {
           setErr(error?.response?.data?.message);
@@ -83,7 +92,7 @@ export default function SignUp() {
 
 
         {/* sign in */}
-        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors  `} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }} onClick={handleSignIn}>Sign In</button>
+        <button className={`w-full py-2 rounded-md text-white font-semibold mt-4 hover:bg-orange-600 transition-colors`} style={{ backgroundColor: primaryColor, hoverColor: hoverColor }} onClick={handleSignIn} disabled={loading}>{loading ? <ClipLoader size={20} color='white'/>:"Sign In"}</button>
         <p className="text-red-500 text-center">{err}</p>
 
           {/* sign in with google */}
