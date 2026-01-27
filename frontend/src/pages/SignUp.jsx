@@ -24,8 +24,10 @@ export default function SignUp() {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
+    setLoading(true);
     try {
       let result = await axios.post(`${serverUrl}/api/auth/signup`, {
         fullName,
@@ -38,6 +40,7 @@ export default function SignUp() {
       })
       console.log(result);
       setErr('');
+      setLoading(false);
     } catch (error) {
       setErr(error?.response?.data?.message);
     }
