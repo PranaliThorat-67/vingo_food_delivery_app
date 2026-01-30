@@ -7,6 +7,7 @@ import useGetCurrentUser from './hooks/useGetCurrentUser.jsx';
 import { useSelector } from 'react-redux';
 export const serverUrl = 'http://localhost:8000'   //backend server url
 import Nav from './components/Nav.jsx';
+import Home from './pages/Home.jsx';
 
 function App() {
   useGetCurrentUser()
@@ -18,7 +19,7 @@ function App() {
       <Route path="/signup" element={!userData ? <SignUp /> : <Navigate to={"/"} />} />
       <Route path="/signin" element={!userData ? <SignIn /> : <Navigate to={"/"} />} />
       <Route path="/forgot-password" element={!userData ? <ForgotPassword /> : <Navigate to={"/"} />} />
-      <Route path="/forgot-password" element={!userData ? <ForgotPassword /> : <Navigate to={"/"} />} />
+      <Route path="/forgot-password" element={!userData ? <Home /> : <Navigate to={"/signin"} />} />
     </Routes>
     </>
   )
