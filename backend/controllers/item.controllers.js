@@ -1,15 +1,15 @@
 import shop from '../models/shop.model.js';
-import Item from '../models/Item.js';
+import Item from '../models/item.model.js';
 import uploadOnCloudinary from './../utils/cloudinary.js';
 
-export const addItem = async (requestAnimationFrame, res) => {
+export const createItem = async (req, res) => {
     try {
         const {name, category, foodType, price} = req.body;
         let image;
         if(req.file) {
             image = await uploadOnCloudinary(req.file.path);
         }
-        const shop = await findOneById(req._shopId);
+        const shop = await Shop.findById(req._shopId);
         if(!shop) {
             return res.status(404).json({message: "Shop not found"});
         }
@@ -19,7 +19,7 @@ export const addItem = async (requestAnimationFrame, res) => {
         await item.populate("shop");
         return res.status(201).json(item);
     } catch (error) {        console.log(error);
-        return res.status(500).json({message: `Add Item Error ${error.message}`
+        return res.status(500).json({message: `Create Item Error ${error.message}`
         })
     }
 }

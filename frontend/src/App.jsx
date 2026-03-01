@@ -9,10 +9,12 @@ export const serverUrl = 'http://localhost:8000'   //backend server url
 import Nav from './components/Nav.jsx';
 import Home from './pages/Home.jsx';
 import useGetCity from './hooks/useGetCity.jsx';
+import useGetMyShop from './hooks/useGetMyShop.jsx';
 
 function App() {
   useGetCurrentUser()
   useGetCity(); 
+  useGetMyShop();
   const {userData} = useSelector((state) => state.user);
   return (
     <>

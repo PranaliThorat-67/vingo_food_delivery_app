@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 const shopSchema = new mongoose.Schema({
     name: {type: String, required: true},   
     image: {type: String, required: true},
@@ -5,7 +7,7 @@ const shopSchema = new mongoose.Schema({
     city: {type: String, required: true},
     state: {type: String, required: true},
     address: {type: String, required: true},
-    items: [{type: mongoose.schema.ObjectId, ref: "Item"}],
+    items: [{type: mongoose.Schema.Types.ObjectId, ref: "Item"}],
 })  
 
 const Shop = mongoose.model("Shop", shopSchema);
